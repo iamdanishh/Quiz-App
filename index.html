@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <link href="style.css" rel="Stylesheet">
+    <link href="http://fonts.cdnfonts.com/css/caveat-brush" rel="stylesheet">
+    <link href="http://fonts.cdnfonts.com/css/source-sans-pro" rel="stylesheet">
+    <script src="data.js"></script>
+    <title>Quiz App</title>
+
+</head>
+
+<body>
+    <section class="section-1">
+        <div class="quiz-heading">
+            The Quiz App
+        </div>
+        <div class="container">
+            <form method="post" action="index.html" id="quiz">
+                <div id="q-container" class="question-box">
+
+                </div>
+            </form>
+            <div class="score-box">
+                Score: <span id="scoreBoard">0</span>/5
+            </div>
+        </div>
+
+        
+    </section>
+</body>
+<script>
+    var count = 1;
+    const target = document.getElementById("q-container")
+
+    // Foreach Questions 
+    data.forEach(element => {
+
+        const div = document.createElement("div");
+        div.setAttribute("id", "div-" + count);
+        div.className = "ques-opt"
+        div.innerHTML = "<p> Q" + count + "." + element.question + "</p>";
+        target.appendChild(div)
+        // Foreach Options
+        var optioncount = 1;
+        element.options.forEach(opt => {
+
+            const para = document.createElement("p");
+            para.setAttribute("id", "para-" + optioncount);
+            para.innerHTML = "<input type='radio' id='" + opt + "' name='" + element.id + "' value='" + optioncount + "'>" + opt;
+            div.appendChild(para)
+            optioncount++;
+        })
+        count++;
+    });
+
+
+    const submitSec = document.createElement("div");
+    submitSec.setAttribute("id", "submit-section");
+    submitSec.className = "submit-sec";
+    target.appendChild(submitSec)
+
+    const submitButton = document.createElement("button");
+    submitButton.setAttribute("id", "submit");
+    submitButton.className = "submit";
+    submitButton.innerText = "Submit";
+    submitSec.appendChild(submitButton)
+
+    // Submit Logic
+    submitButton.addEventListener("click", function (event) {
+      
+        event.preventDefault();
+        const form = document.getElementById('quiz');
+       var score = 0;
+        data.forEach(ele => {
+            
+            for (let i = 0; i <form.elements.length; i++)//Here form.elements[i].name is question number
+            {
+                
+                if (form.elements[i].name == ele.id && form.elements[i].checked == true && form.elements[i].value == ele.answer) {
+                   document.getElementById("scoreBoard").innerText = ++score;
+                }
+                
+            }
+        })
+
+
+    })
+// Score Logic
+
+
+
+
+</script>
+
+</html>
